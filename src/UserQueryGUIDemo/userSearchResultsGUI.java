@@ -12,6 +12,8 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
@@ -56,14 +58,42 @@ public class userSearchResultsGUI extends javax.swing.JFrame {
     
     public void addTableHeader(){
         
-        String[] imgsrc = {"image.png"};
+             //add Dynamic Data
+        List data = new ArrayList();
+        
+        //add 4 data
+        data.add("Photo");
+        data.add("Product Name");
+        data.add("Price");
+        data.add("Avalability");
+        
+              
+        data.add("image.png");
+        data.add("Rolex");
+        data.add("18$");
+        data.add("yes");
+        
+        data.add("image2.jpg");
+        data.add("Role");
+        data.add("12$");
+        data.add("yes");
+        
+        data.add("image.png");
+        data.add("Rolex");
+        data.add("18$");
+        data.add("yes");
+        
+        data.add("image2.jpg");
+        data.add("Role");
+        data.add("12$");
+        data.add("yes");
+        
+        data.add("image.png");
+        data.add("Rolex");
+        data.add("18$");
+        data.add("yes");
 
-        JLabel imageLabel = new JLabel();
-        ImageIcon icon = new ImageIcon("image.png");
-        Image img = icon.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
-        imageLabel.setIcon(new ImageIcon(img));
-
-        final Object colNames[] = {"", "Image", "Team", "Points", "Manager"};
+        final Object colNames[] = {"", data.get(0).toString(), data.get(1).toString(), data.get(2).toString(), data.get(3).toString()};
         
         
         model = new DefaultTableModel(null, colNames){
@@ -104,21 +134,33 @@ public class userSearchResultsGUI extends javax.swing.JFrame {
 
         
         jTable1.setModel(model); 
-
+        
+        int column = data.size()/4;
+        System.out.println(column);
+        
         //THE ROW
-        for(int i=0;i<=2;i++){
-          model.addRow(new Object[]{false,imageLabel, "Row " + i + ", Col 2"
-                  , "Row " + i + ", Col 3", "Row " + i + ", Col 4"});
-        }
+        for(int i=0;i<column-1;i++){
+            
+            int currentRow = 4*i+4;
+            //resize image dynamicallt from local folder    
+            JLabel imageLabel = new JLabel();
+            ImageIcon icon = new ImageIcon(data.get(currentRow).toString());
+            Image img = icon.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
+            imageLabel.setIcon(new ImageIcon(img));       
+            
+            //add data informtaion to the table
+            model.addRow(new Object[]{false,imageLabel,data.get(currentRow+1).toString()
+                      , data.get(currentRow+2).toString(), data.get(currentRow+3).toString()});
+            }
         
-        int BOOLEAN_COL = 0;
-        
-        jTable1.setAutoCreateRowSorter(true);
-        jTable1.setFillsViewportHeight(true);
-        jTable1.getColumn("Image").setCellRenderer(new CellRenderer());
-        TableColumn tc = jTable1.getColumnModel().getColumn(BOOLEAN_COL);
+            //add image dynamicallt from local folder    
+            int BOOLEAN_COL = 0;
+            jTable1.setAutoCreateRowSorter(true);
+            jTable1.setFillsViewportHeight(true);
+            jTable1.getColumn("Photo").setCellRenderer(new CellRenderer());
+            TableColumn tc = jTable1.getColumnModel().getColumn(BOOLEAN_COL);
 
-        tc.setHeaderRenderer(new SelectAllHeader(jTable1, BOOLEAN_COL));
+            tc.setHeaderRenderer(new SelectAllHeader(jTable1, BOOLEAN_COL));
         
     }
     
@@ -132,7 +174,7 @@ public class userSearchResultsGUI extends javax.swing.JFrame {
                 int row,
                 int column) {
  
-            TableColumn tb = jTable1.getColumn("Image");
+            TableColumn tb = jTable1.getColumn("Photo");
             tb.setMaxWidth(60);
             tb.setMinWidth(60);
  
