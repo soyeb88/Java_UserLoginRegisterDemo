@@ -7,11 +7,14 @@ package UserQueryGUIDemo;
 
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Image;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.JToggleButton;
@@ -52,16 +55,24 @@ public class userSearchResultsGUI extends javax.swing.JFrame {
     
     
     public void addTableHeader(){
+        
+        String[] imgsrc = {"image.png"};
 
-        final Object colNames[] = {"", "Position", "Team", "Points", "Manager"};
+        JLabel imageLabel = new JLabel();
+        ImageIcon icon = new ImageIcon("image.png");
+        Image img = icon.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
+        imageLabel.setIcon(new ImageIcon(img));
 
+        final Object colNames[] = {"", "Image", "Team", "Points", "Manager"};
+        
+        
         model = new DefaultTableModel(null, colNames){
                       public Class<?> getColumnClass(int column){
                         switch(column){
                         case 0:
                           return Boolean.class;
                         case 1:
-                          return String.class;
+                          return JLabel.class;
                         case 2:
                           return String.class;
                         case 3:
@@ -95,20 +106,42 @@ public class userSearchResultsGUI extends javax.swing.JFrame {
         jTable1.setModel(model); 
 
         //THE ROW
-        for(int i=0;i<=18;i++){
-          model.addRow(new Object[]{false,"Row " + i + ", Col 1", "Row " + i + ", Col 2"
+        for(int i=0;i<=2;i++){
+          model.addRow(new Object[]{false,imageLabel, "Row " + i + ", Col 2"
                   , "Row " + i + ", Col 3", "Row " + i + ", Col 4"});
         }
         
         int BOOLEAN_COL = 0;
         
         jTable1.setAutoCreateRowSorter(true);
+        jTable1.setFillsViewportHeight(true);
+        jTable1.getColumn("Image").setCellRenderer(new CellRenderer());
         TableColumn tc = jTable1.getColumnModel().getColumn(BOOLEAN_COL);
 
         tc.setHeaderRenderer(new SelectAllHeader(jTable1, BOOLEAN_COL));
         
     }
     
+    class CellRenderer implements TableCellRenderer {
+ 
+        @Override
+        public Component getTableCellRendererComponent(JTable table,
+                Object value,
+                boolean isSelected,
+                boolean hasFocus,
+                int row,
+                int column) {
+ 
+            TableColumn tb = jTable1.getColumn("Image");
+            tb.setMaxWidth(60);
+            tb.setMinWidth(60);
+ 
+            jTable1.setRowHeight(60);
+ 
+            return (Component) value;
+        }
+ 
+    }
     
     
     @SuppressWarnings("unchecked")
@@ -116,67 +149,67 @@ public class userSearchResultsGUI extends javax.swing.JFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jLabel1 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        ImageIcon icon = new ImageIcon(getClass().getResource("");
+            jTable1 = new javax.swing.JTable();
+            jLabel1 = new javax.swing.JLabel();
+            jButton1 = new javax.swing.JButton();
+            jComboBox1 = new javax.swing.JComboBox<>();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Search Result\n");
-        setBounds(new java.awt.Rectangle(500, 120, 500, 600));
-        setMinimumSize(new java.awt.Dimension(500, 600));
-        setResizable(false);
-        getContentPane().setLayout(null);
+            setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+            setTitle("Search Result\n");
+            setBounds(new java.awt.Rectangle(500, 120, 500, 600));
+            setMinimumSize(new java.awt.Dimension(500, 600));
+            setResizable(false);
+            getContentPane().setLayout(null);
 
-              
-        jTable1.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N        
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
+            jTable1.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
+            jTable1.setModel(new javax.swing.table.DefaultTableModel(
+                new Object [][] {
 
-            },
-            new String [] {
+                },
+                new String [] {
 
-            }
-        ));
-        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTable1MouseClicked(evt);
-            }
-        });
-        jScrollPane1.setViewportView(jTable1);
+                }
+            ));
+            jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+                public void mouseClicked(java.awt.event.MouseEvent evt) {
+                    jTable1MouseClicked(evt);
+                }
+            });
+            jScrollPane1.setViewportView(jTable1);
 
-        getContentPane().add(jScrollPane1);
-        jScrollPane1.setBounds(-2, 85, 500, 290);
-        
-        jLabel1.setText("Search Results");
-        getContentPane().add(jLabel1);
-        jLabel1.setBounds(200, 30, 110, 40);
+            getContentPane().add(jScrollPane1);
+            jScrollPane1.setBounds(-2, 85, 500, 290);
 
-        jButton1.setText("Download");
-        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jButton1MouseClicked(evt);
-            }
-        });
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-        getContentPane().add(jButton1);
-        jButton1.setBounds(200, 450, 107, 29);
+            jLabel1.setText("Search Results");
+            getContentPane().add(jLabel1);
+            jLabel1.setBounds(200, 30, 110, 40);
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Full Data", "Selected Data" }));
-        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox1ActionPerformed(evt);
-            }
-        });
-        getContentPane().add(jComboBox1);
-        jComboBox1.setBounds(30, 450, 150, 27);
+            jButton1.setText("Download");
+            jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+                public void mouseClicked(java.awt.event.MouseEvent evt) {
+                    jButton1MouseClicked(evt);
+                }
+            });
+            jButton1.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    jButton1ActionPerformed(evt);
+                }
+            });
+            getContentPane().add(jButton1);
+            jButton1.setBounds(200, 450, 107, 29);
 
-        pack();
-    }// </editor-fold>//GEN-END:initComponents
+            jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Full Data", "Selected Data" }));
+            jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    jComboBox1ActionPerformed(evt);
+                }
+            });
+            getContentPane().add(jComboBox1);
+            jComboBox1.setBounds(30, 450, 150, 27);
+
+            pack();
+        }// </editor-fold>//GEN-END:initComponents
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
         
         
@@ -254,7 +287,6 @@ public class userSearchResultsGUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
-    private JCheckBox checkBoxAll;
     // End of variables declaration//GEN-END:variables
 }
 
